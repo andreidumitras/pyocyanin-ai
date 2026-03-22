@@ -62,7 +62,7 @@ class Signal:
         Note:
             This method modifies `self.I` in-place.
         '''
-        if Signal.I_baseline.zise == 0:
+        if Signal.I_baseline.size == 0:
             raise ValueError("The baseline current was not set.")
         self.I = self.I - Signal.I_baseline
 
@@ -232,5 +232,50 @@ class Signal:
         right_slope = self.get_right_slope()
         return np.abs(left_slope) / np.abs(right_slope)
     
-    def pplot(self, start) -> None:
-        pass
+    def pplot(self, start: int = 0, end: int = 230) -> None:
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=Signal.E[start:end], y=self.I[start:end], mode="lines", name="signal"))
+        # plotting the area
+        fig.add_trace(go.Scatter(
+            x=Signal.E[self.peak.start_idx:self.peak.end_idx + 1],
+            y=self.I[self.peak.start_idx:self.peak.end_idx + 1],
+            mode="lines",
+            name="signal",
+            fill="tozeroy"
+        ))
+        # plotting starting of the peak
+        fig.add_trace(go.Scatter(
+            x=[self.peak.E_start],
+            y=[self.I[self.peak.start_idx]],
+            mode="lines+markers",
+            name="left"
+        ))
+        # plotting ending of the peak
+        fig.add_trace(go.Scatter(
+            x=[self.peak.E_end],
+            y=[self.I[self.peak.end_idx]],
+            mode="lines+markers",
+            name="right"
+        ))
+        # plotting the peak
+        fig.add_trace(go.Scatter(
+            x=[self.peak.Ep],
+            y=[self.peak.Ip],
+            mode="lines+markers",
+            name="peak"
+        ))
+            
+        fig.update_layout(
+            # width=750,
+            height=750,
+            template="plotly_white"
+        )
+        fig.update_xaxes(
+            showgrid=True,
+            minor=dict(showgrid=True)
+        )
+        fig.update_yaxes(
+            showgrid=True,
+            minor=dict(showgrid=True)
+        )
+        fig.show()
