@@ -5,9 +5,12 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "ipykernel>=7.2.0",
     "matplotlib>=3.10.8",
+    "nbformat>=5.10.4",
     "nump>=5.5.5.5",
     "numpy>=2.4.3",
+    "openpyxl>=3.1.5",
     "pandas>=3.0.1",
     "plotly>=6.6.0",
     "scikit-learn>=1.8.0",
