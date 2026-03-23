@@ -404,8 +404,8 @@ class Signal:
         '''
         import numpy.polynomial.chebyshev as cheb
 
-        I_peak = self.I[self.peak.start_idx : self.peak.end_idx + 1]
-        E_peak = Signal.E[self.peak.start_idx : self.peak.end_idx + 1]
+        I_peak = np.array(self.I[self.peak.start_idx : self.peak.end_idx + 1], dtype=float)
+        E_peak = np.array(Signal.E[self.peak.start_idx : self.peak.end_idx + 1], dtype=float)
         
         if len(I_peak) < order + 1:
             return 0.0
@@ -442,8 +442,8 @@ class Signal:
         threshold = alpha * self.peak.Ip
         threshold_idx = self.peak.start_idx + np.where(self.I[self.peak.start_idx:self.peak.Ip_idx] >= threshold)[0][0]
 
-        I_left = np.array(self.I[threshold_idx:self.peak.Ip_idx])
-        E_left = np.array(Signal.E[threshold_idx:self.peak.Ip_idx])
+        I_left = np.array(self.I[threshold_idx:self.peak.Ip_idx], dtype=float)
+        E_left = np.array(Signal.E[threshold_idx:self.peak.Ip_idx], dtype=float)
 
         if len(I_left) < 2 or len(E_left) < 2:
             raise ValueError("Not enough points to calculate left slope.")
@@ -469,8 +469,8 @@ class Signal:
         threshold = alpha * self.peak.Ip
         threshold_idx = self.peak.Ip_idx + np.where(self.I[self.peak.Ip_idx:self.peak.end_idx] >= threshold)[0][-1]
 
-        I_right = np.array(self.I[self.peak.Ip_idx + 1:threshold_idx])
-        E_right = np.array(Signal.E[self.peak.Ip_idx + 1:threshold_idx])
+        I_right = np.array(self.I[self.peak.Ip_idx + 1:threshold_idx], dtype=float)
+        E_right = np.array(Signal.E[self.peak.Ip_idx + 1:threshold_idx], dtype=float)
 
         if len(I_right) < 2 or len(E_right) < 2:
             raise ValueError("Not enough points to calculate left slope.")
