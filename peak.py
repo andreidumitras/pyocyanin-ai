@@ -39,7 +39,7 @@ class Peak:
         left_idx = self.Ip_idx
         Imin_left = self.Ip
         i = left_idx
-        while left_idx > peak_start_idx and Imin_left > 0:
+        while i > peak_start_idx and Imin_left > 0:
             if I[i] < Imin_left:
                 Imin_left = I[i]
                 left_idx = i
@@ -50,7 +50,7 @@ class Peak:
         right_idx = self.Ip_idx
         Imin_right = self.Ip
         i = right_idx
-        while right_idx < peak_end_idx and Imin_right > 0:
+        while i < peak_end_idx and Imin_right > 0:
             if I[i] < Imin_right:
                 Imin_right = I[i]
                 right_idx = i

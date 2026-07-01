@@ -125,7 +125,7 @@ class Signal:
     @classmethod
     def set_common_potential_E(cls, E: np.ndarray) -> None:
         '''Sets the shared potential array for all future Signal instances.'''
-        cls.E = E
+        cls.E = np.asarray(E, dtype=float)
     
     @classmethod
     def set_common_baseline_I(cls, I_baseline: np.ndarray) -> None:
@@ -650,7 +650,8 @@ class Signal:
         wavelet_energy = np.linalg.norm(coeffs)**2
         return float(wavelet_energy)
     
-    def pplot(self, start: int = 0, end: int = 230) -> None:
+    def pplot(self, start: int = 0, end: int = 230, title: str | None = None) -> None:
+        title = title if title is not None else f"Signal ID: {Signal.sig_id - 1}"
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=Signal.E[start:end], y=self.I[start:end], mode="lines", name="signal"))
         # plotting the area
@@ -684,7 +685,7 @@ class Signal:
         ))
             
         fig.update_layout(
-            # width=750,
+            title=title,
             height=750,
             template="plotly_white"
         )
